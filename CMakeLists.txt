@@ -7,7 +7,7 @@ enable_testing()
 
 set(CMAKE_CXX_STANDARD 11)
 
-find_program(CLANG_FORMAT_BIN_NAME NAMES clang-format-3.8 PATH /usr/bin/)
+file(GLOB CLANG_FORMAT_BIN_NAME /usr/bin/clang-format-[3-9]*)
 
 if(NOT CLANG_FORMAT_BIN_NAME-NOTFOUND)
     message("The clang-format is ${CLANG_FORMAT_BIN_NAME}")
