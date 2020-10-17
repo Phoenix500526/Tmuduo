@@ -7,6 +7,20 @@ enable_testing()
 
 set(CMAKE_CXX_STANDARD 11)
 
+find_program(CLANG_FORMAT_BIN_NAME NAMES clang-format-3.8 PATH /usr/bin/)
+
+if(NOT CLANG_FORMAT_BIN_NAME-NOTFOUND)
+    message("The clang-format is ${CLANG_FORMAT_BIN_NAME}")
+    file(GLOB_RECURSE ALL_SOURCE_FILES *.cc *.h)
+    add_custom_target(
+            clang-format
+            COMMAND ${CLANG_FORMAT_BIN_NAME}
+            -style=google
+            -i
+            ${ALL_SOURCE_FILES}
+    )
+endif()
+
 
 add_subdirectory(test)
-add_executable(${PROJECT_NAME} main.cc)
+add_subdirectory(base)

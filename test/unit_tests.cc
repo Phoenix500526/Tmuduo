@@ -3,16 +3,11 @@
 
 #include <gtest/gtest.h>
 
-class ReverseTests : public ::testing::Test
-{
-};
+class ReverseTests : public ::testing::Test {};
 
+TEST_F(ReverseTests, is_palindrome) {
+  std::string pal = "mom";
+  Palindrome pally;
 
-TEST_F(ReverseTests,  is_palindrome )
-{
-    std::string pal = "mom";
-    Palindrome pally;
-
-    EXPECT_TRUE(pally.isPalindrome(pal));
-
+  EXPECT_TRUE(pally.isPalindrome(pal));
 }
