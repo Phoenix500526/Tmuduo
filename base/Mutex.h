@@ -78,7 +78,7 @@ namespace tmuduo {
 //   mutable MutexLock mutex_;
 //   std::vector<int> data_ GUARDED_BY(mutex_);
 // };
-class CAPABILITY("mutex") Mutex : nocopyable {
+class CAPABILITY("mutex") Mutex : noncopyable {
  public:
   Mutex() : mutex_(), holder_() {}
   ~Mutex() { assert(holder_ == std::thread::id()); }
@@ -112,7 +112,7 @@ class CAPABILITY("mutex") Mutex : nocopyable {
   std::thread::id holder_;
 };
 
-class SCOPED_CAPABILITY UniqueLock : nocopyable {
+class SCOPED_CAPABILITY UniqueLock : noncopyable {
  public:
   explicit UniqueLock(Mutex& mutex) ACQUIRE(mutex)
       : mutex_(mutex), lck_(mutex.getMutex()) {

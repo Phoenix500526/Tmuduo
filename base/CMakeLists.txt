@@ -1,6 +1,9 @@
 project(TmuduoBase)
 
-set(BASE_SRC Palindrome.cc)
+set(BASE_SRC CountDownLatch.cc)
 
 add_library(${PROJECT_NAME} STATIC ${BASE_SRC})
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR})
+target_link_libraries(${PROJECT_NAME} PRIVATE Threads::Threads)
+
+add_library(Base::lib ALIAS ${PROJECT_NAME})

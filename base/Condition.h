@@ -6,7 +6,7 @@
 #include "base/Mutex.h"
 
 namespace tmuduo {
-class Condition : nocopyable {
+class Condition : noncopyable {
  private:
   std::condition_variable m_cond;
 
