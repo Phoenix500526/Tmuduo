@@ -34,6 +34,7 @@ add_compile_options(
  -Woverloaded-virtual
  -Wpointer-arith
  -Wwrite-strings
+ -O3
  )
 
 add_subdirectory(test)
