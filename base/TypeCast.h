@@ -33,14 +33,15 @@ inline TO implicit_cast(FROM const& f) {
 
 // down_cast 只接受指针类型的向下转型,
 template <typename TO, typename FROM>
-inline To down_cast(FROM* f) {
+inline TO down_cast(FROM* f) {
   // 利用 implicit_cast 进行反向检查以确保 TO 是 FROM 的子类
   // 条件if(false)结合模板可以实现编译期类型检查的功能，同时由于编译器会进行优化，因此不会负上任何性能上的开销
   if (false) {
     implicit_cast<FROM*, TO>(0);
   }
 #if !defined(NDEBUG) && !defined(GOOGLE_PROTOBUF_NO_RTTI)
-  assert(f == NULL || dynamic_cast<To>(f) != NULL);  // RTTI: debug mode only!
+  assert(f == nullptr ||
+         dynamic_cast<TO>(f) != nullptr);  // RTTI: debug mode only!
 #endif
   return static_cast<TO>(f);
 }

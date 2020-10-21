@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.13)
 project(Tmuduo CXX)
 
 file(GLOB CLANG_FORMAT_BIN_NAME /usr/bin/clang-format-[3-9]*)
@@ -36,6 +36,8 @@ add_compile_options(
  -Wwrite-strings
  -O3
  )
+
+add_link_options(-rdynamic)
 
 add_subdirectory(test)
 add_subdirectory(base)
