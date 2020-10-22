@@ -11,8 +11,6 @@ namespace tmuduo {
 namespace CurrentThread {
 
 extern thread_local pid_t t_cachedTid;
-extern thread_local char t_tidString[32];
-extern thread_local int t_tidStringLength;
 extern thread_local const char* t_threadName;
 
 // cacheTid、isMainTHread、sleepUsec均定义在 Thread.cc 文件中，
@@ -20,7 +18,6 @@ extern thread_local const char* t_threadName;
 void cacheTid();
 bool isMainThread();
 void sleepUsec(int64_t usec);  // for testing
-void clearCache();
 
 //使用 detail 来将 gettid 和 CurrentThread 中其他成员隔离开来
 namespace detail {
@@ -35,10 +32,6 @@ inline pid_t tid() {
   }
   return t_cachedTid;
 }
-
-inline const char* tidString() { return t_tidString; }
-
-// inline int tidStringLength() { return t_tidStringLength; }
 
 inline const char* name() { return t_threadName; }
 
