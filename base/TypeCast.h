@@ -1,11 +1,15 @@
 #ifndef TMUDUO_BASE_TYPESCAST_H_
 #define TMUDUO_BASE_TYPESCAST_H_
 
+#include <string.h>  // memset
+
 #ifndef NDEBUG
 #include <assert.h>
 #endif
 
 namespace tmuduo {
+
+inline void memZero(void* p, size_t n) { memset(p, 0, n); }
 // implicit_cast 在将类类型向上转型时会进行类型检查，更加安全
 // 例如：
 // class Top{};

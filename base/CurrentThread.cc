@@ -6,10 +6,11 @@
 
 namespace tmuduo {
 namespace CurrentThread {
-__thread std::size_t t_cachedTid = 0;
-__thread char t_tidString[32];
-__thread int t_tidStringLength = 6;
-__thread const char* t_threadName = "unknown";
+
+thread_local pid_t t_cachedTid = 0;
+thread_local char t_tidString[32];
+thread_local const char* t_threadName = "unknown";
+thread_local int t_tidStringLength = 6;
 
 std::string stackTrace(bool demangle) {
   std::string stack;
@@ -60,5 +61,26 @@ std::string stackTrace(bool demangle) {
   }
   return stack;
 }
+
+void cacheTid() {
+  if (t_cachedTid == 0) {
+    //获取线程的 pid_t
+    t_cachedTid = detail::gettid();
+    // t_tidStringLength 的长度只有 6
+    t_tidStringLength =
+        snprintf(t_tidString, sizeof t_tidString, "%5d ", t_cachedTid);
+  }
+}
+
+bool isMainThread() { return tid() == ::getpid(); }
+
+void sleepUsec(int64_t usec) {
+  static const int kMicroSecondsPerSecond = 1000 * 1000;
+  struct timespec ts = {0, 0};
+  ts.tv_sec = static_cast<time_t>(usec / kMicroSecondsPerSecond);
+  ts.tv_nsec = static_cast<long>(usec % kMicroSecondsPerSecond * 1000);
+  ::nanosleep(&ts, NULL);
+}
+
 }  // namespace CurrentThread
 }  // namespace tmuduo
