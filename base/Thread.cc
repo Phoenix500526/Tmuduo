@@ -8,11 +8,11 @@ std::atomic<int> Thread::numCreated_(0);
 
 void Thread::runInThread(ThreadFunc func, const std::string& name) {
   CurrentThread::t_cachedTid = CurrentThread::tid();
-  if(name.empty()){
+  if (name.empty()) {
     char buf[32];
     snprintf(buf, sizeof buf, "Thread%d", Thread::numCreated());
     CurrentThread::t_threadName = buf;
-  }else{
+  } else {
     CurrentThread::t_threadName = name.c_str();
   }
   //::prctl(PR_SET_NAME, threadName)：表示用 threadName
@@ -42,8 +42,8 @@ void Thread::runInThread(ThreadFunc func, const std::string& name) {
 
 Thread::Thread(ThreadFunc func, const std::string& name)
     : thread_(&Thread::runInThread, this, std::move(func), name) {
-      ++numCreated_;
-    }
+  ++numCreated_;
+}
 
 Thread::Thread(Thread&& rhs) noexcept : thread_(std::move(rhs.thread_)) {}
 

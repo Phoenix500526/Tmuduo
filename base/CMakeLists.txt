@@ -4,6 +4,7 @@ set(BASE_SRC
     CountDownLatch.cc
     CurrentThread.cc
     Thread.cc
+    LogStream.cc
     Exception.cc)
 
 add_library(${PROJECT_NAME} STATIC ${BASE_SRC})

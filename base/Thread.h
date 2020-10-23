@@ -3,9 +3,9 @@
 #include "base/CurrentThread.h"
 #include "base/noncopyable.h"
 
+#include <atomic>
 #include <functional>
 #include <thread>
-#include <atomic>
 
 namespace tmuduo {
 
@@ -18,6 +18,7 @@ class Thread : noncopyable {
   Thread& operator=(Thread&& rhs) noexcept;
   void join();
   static inline int numCreated() { return numCreated_.load(); }
+
  private:
   //线程实体
   std::thread thread_;

@@ -14,8 +14,7 @@ class Foo {
       printf(
           "Thread name : %s,Thread ID:%d says: "
           "hellowold:%d,num:%d\n",
-          CurrentThread::name(), 
-          CurrentThread::tid(), i, Thread::numCreated());
+          CurrentThread::name(), CurrentThread::tid(), i, Thread::numCreated());
       sleep(5);
     }
   }
@@ -24,8 +23,8 @@ class Foo {
       printf(
           "Thread name : %s,  Thread ID:%d says: "
           "hellowold:%d, x = %f,num:%d\n",
-          CurrentThread::name(), 
-          CurrentThread::tid(), i, x_, Thread::numCreated());
+          CurrentThread::name(), CurrentThread::tid(), i, x_,
+          Thread::numCreated());
       sleep(5);
     }
   }
@@ -35,8 +34,8 @@ class Foo {
       printf(
           "Thread name : %s, Thread ID:%d says: "
           "hellowold:%d, text = %s,num:%d\n",
-          CurrentThread::name(),
-          CurrentThread::tid(), i, text.c_str(), Thread::numCreated());
+          CurrentThread::name(), CurrentThread::tid(), i, text.c_str(),
+          Thread::numCreated());
       sleep(5);
     }
   }
@@ -50,25 +49,24 @@ void func() {
     printf(
         "Thread name : %s, Thread ID:%d says: "
         "hellowold:%d,num:%d\n",
-        CurrentThread::name(),
-        CurrentThread::tid(), i, Thread::numCreated());
+        CurrentThread::name(), CurrentThread::tid(), i, Thread::numCreated());
     sleep(5);
   }
 }
 
-void noname(){
+void noname() {
   sleep(5);
-  printf("Thread name : %s, Thread ID:%d says: "
-        "hellowold,num:%d\n",
-        CurrentThread::name(),
-        CurrentThread::tid(), Thread::numCreated());
+  printf(
+      "Thread name : %s, Thread ID:%d says: "
+      "hellowold,num:%d\n",
+      CurrentThread::name(), CurrentThread::tid(), Thread::numCreated());
 }
 
-void monitor(){
+void monitor() {
   int num = 0;
-  while(Thread::numCreated() > 1){
-    if(num != Thread::numCreated()){
-      printf("%d threads exist!\n",num = Thread::numCreated());
+  while (Thread::numCreated() > 1) {
+    if (num != Thread::numCreated()) {
+      printf("%d threads exist!\n", num = Thread::numCreated());
     }
     sleep(1);
   }
@@ -76,8 +74,7 @@ void monitor(){
 
 int main(void) {
   CurrentThread::t_threadName = "main";
-  printf("Thread name : %s, Thread ID: %d ,num:%d\n",
-         CurrentThread::name(), 
+  printf("Thread name : %s, Thread ID: %d ,num:%d\n", CurrentThread::name(),
          CurrentThread::tid(), Thread::numCreated());
   Foo test(5.0);
   Thread::ThreadFunc FooOperator = std::bind(&Foo::operator(), &test);
@@ -95,8 +92,8 @@ int main(void) {
           printf(
               "Thread name : %s,Thread ID:%d says: "
               "hellowold:%d,num:%d\n",
-              CurrentThread::name(),
-              CurrentThread::tid(), i, Thread::numCreated());
+              CurrentThread::name(), CurrentThread::tid(), i,
+              Thread::numCreated());
           sleep(5);
         }
       },

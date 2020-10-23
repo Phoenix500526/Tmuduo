@@ -35,6 +35,8 @@
 #define TMUDUO_BASE_STRINGPIECE_H_
 
 #include <string.h>
+#include <iosfwd>  // for ostream forward-declaration
+#include <string>
 
 #ifndef NDEBUG
 #include <assert.h>
@@ -135,8 +137,23 @@ class StringPiece {
 
  private:
   const char* ptr_;
-  size_t length_;  //使用
+  size_t length_;
 };
 }  // namespace tmuduo
+
+#ifdef HAVE_TYPE_TRAITS
+// This makes vector<StringPiece> really fast for some STL implementations
+template <>
+struct __type_traits<tmuduo::StringPiece> {
+  typedef __true_type has_trivial_default_constructor;
+  typedef __true_type has_trivial_copy_constructor;
+  typedef __true_type has_trivial_assignment_operator;
+  typedef __true_type has_trivial_destructor;
+  typedef __true_type is_POD_type;
+};
+#endif
+
+// allow StringPiece to be logged
+std::ostream& operator<<(std::ostream& o, const tmuduo::StringPiece& piece);
 
 #endif  // TMUDUO_BASE_STRINGPIECE_H_
