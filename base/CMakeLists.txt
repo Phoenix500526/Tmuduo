@@ -5,6 +5,7 @@ set(BASE_SRC
     CurrentThread.cc
     Thread.cc
     LogStream.cc
+    Logging.cc
     Exception.cc)
 
 add_library(${PROJECT_NAME} STATIC ${BASE_SRC})

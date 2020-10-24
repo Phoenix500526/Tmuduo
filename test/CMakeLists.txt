@@ -22,3 +22,4 @@ add_executable(LogStream_Unittest LogStream_Unittest.cc)
 target_include_directories(LogStream_Unittest PUBLIC ${CMAKE_SOURCE_DIR})
 target_link_libraries(LogStream_Unittest Base::lib ${CONAN_LIBS})
 add_test(NAME LogStream_Unittest COMMAND LogStream_Unittest)
+
