@@ -27,3 +27,8 @@ add_executable(Timestame_Unittest Timestame_Unittest.cc)
 target_include_directories(Timestame_Unittest PUBLIC ${CMAKE_SOURCE_DIR})
 target_link_libraries(Timestame_Unittest Base::lib)
 add_test(NAME Timestame_Unittest COMMAND Timestame_Unittest)
+
+add_executable(Date_Unittest Date_Unittest.cc)
+target_include_directories(Date_Unittest PUBLIC ${CMAKE_SOURCE_DIR})
+target_link_libraries(Date_Unittest Base::lib)
+add_test(NAME Date_Unittest COMMAND Date_Unittest)

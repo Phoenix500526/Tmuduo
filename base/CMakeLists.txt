@@ -7,7 +7,8 @@ set(BASE_SRC
     LogStream.cc
     Logging.cc
     Exception.cc
-    Timestamp.cc)
+    Timestamp.cc
+    Date.cc)
 
 add_library(${PROJECT_NAME} STATIC ${BASE_SRC})
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR})
