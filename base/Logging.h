@@ -3,6 +3,8 @@
 
 #include <chrono>
 #include "base/LogStream.h"
+#include "base/TimeZone.h"
+#include "base/Timestamp.h"
 
 namespace tmuduo {
 
@@ -46,6 +48,7 @@ class Logger {
   Logger(SourceFile file, int line, LogLevel level, const char* func);
   Logger(SourceFile file, int line, bool toAbort);
   ~Logger();
+  void setTimeZone(const TimeZone& tz);
   LogStream& stream() { return impl_.stream_; }
 
   static LogLevel logLevel();
@@ -68,7 +71,8 @@ class Logger {
     Impl(LogLevel level, int old_errno, const SourceFile& file, int line);
     void formatTime();
     void finish();
-    time_point time_;
+    // time_point time_;
+    Timestamp time_;
     LogStream stream_;
     LogLevel level_;
     int line_;
