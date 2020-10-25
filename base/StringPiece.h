@@ -43,6 +43,18 @@
 #endif
 
 namespace tmuduo {
+// StringArg 可以同时接受 const char* 以及 string
+// 作为参数，这样可以避免每个需要接受字符串参数的函数编写不同版本的重载函数，同时还可以减少不必要的string拷贝过程
+class StringArg {
+ public:
+  StringArg(const char* str) : str_(str) {}
+  StringArg(const std::string& str) : str_(str.c_str()) {}
+  const char* c_str() const { return str_; }
+
+ private:
+  const char* str_;
+};
+
 // You can use StringPiece as a function or method parameter. A StringPiece
 // parameter can receive a double-quoted std::string literal argument, a “const
 // char*” argument, a std::string argument, or a StringPiece argument with no

@@ -7,6 +7,7 @@ set(BASE_SRC
     LogStream.cc
     Logging.cc
     Exception.cc
+    FileUtil.cc
     )
 
 option(TIME_CHRONO "Use C++11 chrono library" OFF)

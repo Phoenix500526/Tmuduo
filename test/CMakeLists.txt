@@ -41,3 +41,8 @@ else()
     target_link_libraries(Date_Unittest Base::lib)
     add_test(NAME Date_Unittest COMMAND Date_Unittest)
 endif()
+
+add_executable(FileUtil_test FileUtil_test.cc)
+target_include_directories(FileUtil_test PUBLIC ${CMAKE_SOURCE_DIR})
+target_link_libraries(FileUtil_test Base::lib)
+add_test(NAME FileUtil_test COMMAND FileUtil_test)
