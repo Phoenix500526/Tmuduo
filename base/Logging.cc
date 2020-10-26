@@ -29,7 +29,7 @@ Logger::LogLevel initLogLevel() {
 Logger::LogLevel g_logLevel = initLogLevel();
 
 const char* LogLevelName[Logger::LogLevel::NUM_LOG_LEVELS] = {
-    "TRACE", "DEBUG", "INFO", "WARN", "ERROR", "FATAL",
+    "TRACE ", "DEBUG ", "INFO  ", "WARN  ", "ERROR ", "FATAL ",
 };
 
 class T {
@@ -147,7 +147,7 @@ void Logger::Impl::formatTime() {
     if (g_logTimeZone.valid()) {
       tm_time = g_logTimeZone.toLocalTime(seconds);
     } else {
-      ::gmtime_r(&seconds, &tm_time);  // FIXME TimeZone::fromUtcTime
+      ::localtime_r(&seconds, &tm_time);  // FIXME TimeZone::fromUtcTime
     }
 
     int len =

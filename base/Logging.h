@@ -92,12 +92,12 @@ inline Logger::LogLevel Logger::logLevel() { return g_logLevel; }
                  __func__)                                            \
       .stream()
 #define LOG_DEBUG                                                     \
-  if (muduo::Logger::logLevel() <= tmuduo::Logger::DEBUG)             \
+  if (tmuduo::Logger::logLevel() <= tmuduo::Logger::DEBUG)            \
   tmuduo::Logger(__FILE__, __LINE__, tmuduo::Logger::LogLevel::DEBUG, \
                  __func__)                                            \
       .stream()
-#define LOG_INFO                                                   \
-  if (muduo::Logger::logLevel() <= tmuduo::Logger::LogLevel::INFO) \
+#define LOG_INFO                                                    \
+  if (tmuduo::Logger::logLevel() <= tmuduo::Logger::LogLevel::INFO) \
   tmuduo::Logger(__FILE__, __LINE__).stream()
 #define LOG_WARN \
   tmuduo::Logger(__FILE__, __LINE__, tmuduo::Logger::LogLevel::WARN).stream()

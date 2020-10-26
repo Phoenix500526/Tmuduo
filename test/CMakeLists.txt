@@ -51,3 +51,8 @@ add_executable(ProcessInfo_test ProcessInfo_test.cc)
 target_include_directories(ProcessInfo_test PUBLIC ${CMAKE_SOURCE_DIR})
 target_link_libraries(ProcessInfo_test Base::lib)
 add_test(NAME ProcessInfo_test COMMAND ProcessInfo_test)
+
+add_executable(LogFile_test LogFile_test.cc)
+target_include_directories(LogFile_test PUBLIC ${CMAKE_SOURCE_DIR})
+target_link_libraries(LogFile_test Base::lib)
+add_test(NAME LogFile_test COMMAND LogFile_test)

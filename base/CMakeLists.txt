@@ -9,6 +9,7 @@ set(BASE_SRC
     Exception.cc
     FileUtil.cc
     ProcessInfo.cc
+    LogFile.cc
     )
 
 option(TIME_CHRONO "Use C++11 chrono library" OFF)
