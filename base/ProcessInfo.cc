@@ -152,3 +152,33 @@ std::vector<pid_t> ProcessInfo::threads() {
   std::sort(result.begin(), result.end());
   return result;
 }
+
+std::string ProcessInfo::exePath() {
+  std::string result;
+  char buf[1024];
+  ssize_t n = ::readlink("/proc/self/exe", buf, sizeof buf);
+  if (n > 0) {
+    result.assign(buf, n);
+  }
+  return result;
+}
+
+int ProcessInfo::maxOpenFiles() {
+  struct rlimit rl;
+  if (::getrlimit(RLIMIT_NOFILE, &rl)) {
+    return openedFiles();
+  } else {
+    return static_cast<int>(rl.rlim_cur);
+  }
+}
+
+ProcessInfo::CpuTime ProcessInfo::cpuTime() {
+  ProcessInfo::CpuTime t;
+  struct tms tms;
+  if (::times(&tms) >= 0) {
+    const double hz = static_cast<double>(clockTicksPerSecond());
+    t.userSeconds = static_cast<double>(tms.tms_utime) / hz;
+    t.systemSeconds = static_cast<double>(tms.tms_stime) / hz;
+  }
+  return t;
+}

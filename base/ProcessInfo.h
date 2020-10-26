@@ -31,9 +31,22 @@ std::string procStat();
 
 std::string threadStat();
 
+std::string exePath();
+
 int openedFiles();
+int maxOpenFiles();
+
 int numThreads();
 std::vector<pid_t> threads();
+
+struct CpuTime {
+  double userSeconds;
+  double systemSeconds;
+  CpuTime() : userSeconds(0.0), systemSeconds(0.0) {}
+  double total() const { return userSeconds + systemSeconds; }
+};
+CpuTime cpuTime();
+
 }  // namespace ProcessInfo
 
 }  // namespace tmuduo

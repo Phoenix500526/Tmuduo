@@ -25,7 +25,8 @@ int main() {
   Thread t1(&func, "ProcessTest_thread1");
   printf("after:threads = %zd\n", ProcessInfo::threads().size());
   printf("after:num threads = %d\n", ProcessInfo::numThreads());
-  printf("after:status = \n%s\n", ProcessInfo::procStatus().c_str());
+  printf("\n===================== status =====================\n%s\n",
+         ProcessInfo::procStatus().c_str());
   t1.join();
   return 0;
 }
