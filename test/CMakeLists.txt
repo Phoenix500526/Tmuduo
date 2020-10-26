@@ -46,3 +46,8 @@ add_executable(FileUtil_test FileUtil_test.cc)
 target_include_directories(FileUtil_test PUBLIC ${CMAKE_SOURCE_DIR})
 target_link_libraries(FileUtil_test Base::lib)
 add_test(NAME FileUtil_test COMMAND FileUtil_test)
+
+add_executable(ProcessInfo_test ProcessInfo_test.cc)
+target_include_directories(ProcessInfo_test PUBLIC ${CMAKE_SOURCE_DIR})
+target_link_libraries(ProcessInfo_test Base::lib)
+add_test(NAME ProcessInfo_test COMMAND ProcessInfo_test)

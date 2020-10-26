@@ -34,13 +34,10 @@
 #ifndef TMUDUO_BASE_STRINGPIECE_H_
 #define TMUDUO_BASE_STRINGPIECE_H_
 
+#include <assert.h>
 #include <string.h>
 #include <iosfwd>  // for ostream forward-declaration
 #include <string>
-
-#ifndef NDEBUG
-#include <assert.h>
-#endif
 
 namespace tmuduo {
 // StringArg 可以同时接受 const char* 以及 string
