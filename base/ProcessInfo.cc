@@ -25,6 +25,9 @@ int fdDirFilter(const struct dirent* d) {
 
 int scanDir(const char* dirpath, int (*filter)(const struct dirent*)) {
   struct dirent** namelist = nullptr;
+  // scandir 会对dirpath下的所有元素调用 filter，如果调用结果非0,则将
+  //结果加入 namelist 中，若结果为0,则跳过。因此 scanDir 只是对目录下
+  //的所有文件执行 filter 函数而已
   int result = ::scandir(dirpath, &namelist, filter, alphasort);
   assert(namelist == nullptr);
   return result;
@@ -40,6 +43,13 @@ int taskDirFilter(const struct dirent* d) {
 
 Timestamp g_startTime = Timestamp::now();
 // assume those won't change during the life time of a process
+// POSIX 允许应用程序在编译期或运行期检测某些选项是否支持。在编译期可以直接
+//通过判断 <unistd.h> 或 <limits.h> 中的某些宏是否已被定义来判断。在运行
+//期则可以通过 sysconf、fpathconf或pathconf、confstr 来判断。
+// sysconf：用于获取数值配置项
+// fpathconf和pathconf：用于获取和文件系统相关的配置项
+// confstr：用于获取字符串类型的配置项
+//注意：上述配置项均为常量，它们在程序运行的过程当中是不会发生任何改变的。
 int g_clockTicks = static_cast<int>(::sysconf(_SC_CLK_TCK));
 int g_pageSize = static_cast<int>(::sysconf(_SC_PAGE_SIZE));
 }  // namespace detail
@@ -156,6 +166,7 @@ std::vector<pid_t> ProcessInfo::threads() {
 std::string ProcessInfo::exePath() {
   std::string result;
   char buf[1024];
+  // readlink 可以读取符号链接的信息，并将其保存在 buf 当中
   ssize_t n = ::readlink("/proc/self/exe", buf, sizeof buf);
   if (n > 0) {
     result.assign(buf, n);
@@ -163,11 +174,19 @@ std::string ProcessInfo::exePath() {
   return result;
 }
 
+// struct rlimit{
+//     rlim_t rlim_cur; //soft limit
+//     rlim_t rlim_max; //hard limit
+// };
+
 int ProcessInfo::maxOpenFiles() {
   struct rlimit rl;
+  //判断当前进程所打开的fd 是否超过了 RLIMIT_NOFILE
   if (::getrlimit(RLIMIT_NOFILE, &rl)) {
+    //未超限，则返回实际打开的fd数目
     return openedFiles();
   } else {
+    //超限则返回进程的软资源限制 rlim.cur
     return static_cast<int>(rl.rlim_cur);
   }
 }

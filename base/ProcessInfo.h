@@ -40,9 +40,10 @@ int numThreads();
 std::vector<pid_t> threads();
 
 struct CpuTime {
-  double userSeconds;
-  double systemSeconds;
+  double userSeconds;    // CPU 执行在用户模式代码上所花费的时间
+  double systemSeconds;  // CPU 执行内核模式代码上所花费的时间
   CpuTime() : userSeconds(0.0), systemSeconds(0.0) {}
+  // total 代表 CPU 为当前进程所花费的总时间
   double total() const { return userSeconds + systemSeconds; }
 };
 CpuTime cpuTime();
