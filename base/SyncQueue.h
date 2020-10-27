@@ -31,7 +31,7 @@ class SyncQueue : noncopyable {
     return queue_.size();
   }
 
-  void stop() {
+  void stop() NO_THREAD_SAFETY_ANALYSIS {
     {
       UniqueLock lock(mutex_);
       running_ = false;

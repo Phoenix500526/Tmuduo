@@ -62,3 +62,7 @@ target_link_libraries(AsyncLogging_test Base::lib)
 add_executable(SyncQueue_test SyncQueue_test.cc)
 target_include_directories(SyncQueue_test PUBLIC ${CMAKE_SOURCE_DIR})
 target_link_libraries(SyncQueue_test Base::lib)
+
+add_executable(ThreadPool_test ThreadPool_test.cc)
+target_include_directories(ThreadPool_test PUBLIC ${CMAKE_SOURCE_DIR})
+target_link_libraries(ThreadPool_test Base::lib)
