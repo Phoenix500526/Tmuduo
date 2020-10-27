@@ -41,3 +41,4 @@ add_link_options(-rdynamic)
 
 add_subdirectory(test)
 add_subdirectory(base)
+add_subdirectory(net)
