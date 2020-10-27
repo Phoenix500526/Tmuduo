@@ -11,7 +11,7 @@ set(BASE_SRC
     ProcessInfo.cc
     LogFile.cc
     AsyncLogging.cc
-    )
+    Exception.cc)
 
 option(TIME_CHRONO "Use C++11 chrono library" OFF)
 

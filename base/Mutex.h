@@ -1,10 +1,11 @@
 #ifndef TMUDUO_BASE_MUTEX_H_
 #define TMUDUO_BASE_MUTEX_H_
 
+#include "base/CurrentThread.h"
+#include "base/noncopyable.h"
+
 #include <assert.h>
 #include <mutex>
-#include <thread>
-#include "base/noncopyable.h"
 
 // Enable thread safety attributes only with clang.
 // The attributes can be safely erased when compiling with other compilers.
@@ -80,8 +81,8 @@ namespace tmuduo {
 // };
 class CAPABILITY("mutex") Mutex : noncopyable {
  public:
-  Mutex() : mutex_(), holder_() {}
-  ~Mutex() { assert(holder_ == std::thread::id()); }
+  Mutex() : mutex_(), holder_(0) {}
+  ~Mutex() { assert(holder_ == 0); }
 
   void lock() ACQUIRE() {
     mutex_.lock();
@@ -93,23 +94,20 @@ class CAPABILITY("mutex") Mutex : noncopyable {
     mutex_.unlock();
   }
 
-  bool isLockedByThisThread() const {
-    return holder_ == std::this_thread::get_id();
-  }
+  bool isLockedByThisThread() const { return holder_ == CurrentThread::tid(); }
 
   void assertLocked() ASSERT_CAPABILITY(this) {
     assert(isLockedByThisThread());
   }
 
-  std::mutex& getMutex() { return mutex_; }
-
  private:
   friend class UniqueLock;
-
-  void assignHolder() { holder_ = std::this_thread::get_id(); }
-  void unassignHolder() { holder_ = std::thread::id(); }
+  //仅供 UniqueLock 使用，严禁用户调用
+  std::mutex& getMutex() { return mutex_; }
+  void assignHolder() { holder_ = CurrentThread::tid(); }
+  void unassignHolder() { holder_ = 0; }
   std::mutex mutex_;
-  std::thread::id holder_;
+  pid_t holder_;
 };
 
 class SCOPED_CAPABILITY UniqueLock : noncopyable {
