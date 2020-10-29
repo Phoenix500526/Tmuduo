@@ -66,3 +66,9 @@ target_link_libraries(SyncQueue_test Base::lib)
 add_executable(ThreadPool_test ThreadPool_test.cc)
 target_include_directories(ThreadPool_test PUBLIC ${CMAKE_SOURCE_DIR})
 target_link_libraries(ThreadPool_test Base::lib)
+
+## Tmuduo net lib test
+add_executable(Buffer_Unittest Buffer_Unittest.cc)
+target_include_directories(Buffer_Unittest PUBLIC ${CMAKE_SOURCE_DIR})
+target_link_libraries(Buffer_Unittest Net::lib ${CONAN_LIBS})
+add_test(NAME Buffer_Unittest COMMAND Buffer_Unittest)
