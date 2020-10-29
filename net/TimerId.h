@@ -2,26 +2,26 @@
 #define TMUDUO_NET_TIMERID_H_
 
 #include "base/copyable.h"
-namespace tmuduo{
+namespace tmuduo {
 
-namespace net{
+namespace net {
 
 class Timer
 
-class TimerId : copyable
-{
-public:
-    TimerId() : timer_(nullptr), sequence_(0){}
-    TimerId(Timer* timer, int64_t seq) : timer_(timer), sequence_(seq){}
-    ~TimerId() = default;
-    friend class TimerQueue;
-private:
-    Timer* timer_;
-    int64_t sequence_;
+    class TimerId : copyable {
+ public:
+  TimerId() : timer_(nullptr), sequence_(0) {}
+  TimerId(Timer* timer, int64_t seq) : timer_(timer), sequence_(seq) {}
+  ~TimerId() = default;
+  friend class TimerQueue;
+
+ private:
+  Timer* timer_;
+  int64_t sequence_;
 };
 
-}   //namespace net
+}  // namespace net
 
-}   //namespace tmuduo
+}  // namespace tmuduo
 
-#endif  //TMUDUO_NET_TIMERID_H_
+#endif  // TMUDUO_NET_TIMERID_H_

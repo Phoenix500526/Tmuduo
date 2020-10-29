@@ -98,7 +98,7 @@ uint16_t InetAddress::toPort() const {
 
 static thread_local char t_resolveBuffer[64 * 1024];
 
-//resolve 将主机名转换为 ip 地址
+// resolve 将主机名转换为 ip 地址
 bool InetAddress::resolve(StringArg hostname, InetAddress* out) {
   assert(out != nullptr);
   struct hostent hent;

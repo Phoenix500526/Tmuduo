@@ -1,8 +1,8 @@
 #ifndef TMUDUO_BASE_TYPESCAST_H_
 #define TMUDUO_BASE_TYPESCAST_H_
 
-#include <string.h>  // memset
 #include <assert.h>
+#include <string.h>  // memset
 #include <memory>
 
 namespace tmuduo {
@@ -48,30 +48,29 @@ inline To down_cast(From* f) {
   return static_cast<To>(f);
 }
 
-//对于以下两个函数模板的使用存疑：究竟是出于什么目的才要使用模板封装已有的 get 函数
-template<typename T>
-inline T* get_pointer(const std::shared_ptr<T>& ptr)
-{
+//对于以下两个函数模板的使用存疑：究竟是出于什么目的才要使用模板封装已有的 get
+//函数
+template <typename T>
+inline T* get_pointer(const std::shared_ptr<T>& ptr) {
   return ptr.get();
 }
 
-template<typename T>
-inline T* get_pointer(const std::unique_ptr<T>& ptr)
-{
+template <typename T>
+inline T* get_pointer(const std::unique_ptr<T>& ptr) {
   return ptr.get();
 }
 
-//down_pointer_cast 用于对将指向基类的智能指针向下转型为子类指针
-template<typename To, typename From>
-inline ::std::shared_ptr<To> down_pointer_cast(const ::std::shared_ptr<From>& f){
-    if (false)
-    {
-        implicit_cast<From*, To*>(0);
-    }
+// down_pointer_cast 用于对将指向基类的智能指针向下转型为子类指针
+template <typename To, typename From>
+inline ::std::shared_ptr<To> down_pointer_cast(
+    const ::std::shared_ptr<From>& f) {
+  if (false) {
+    implicit_cast<From*, To*>(0);
+  }
 #ifndef NDEBUG
-    assert(f == nullptr || dynamic_cast<To*>(get_pointer(f)) != nullptr);
+  assert(f == nullptr || dynamic_cast<To*>(get_pointer(f)) != nullptr);
 #endif
-    return ::std::static_pointer_cast<To>(f);
+  return ::std::static_pointer_cast<To>(f);
 }
 
 }  // namespace tmuduo
