@@ -6,7 +6,8 @@ set(NET_SRC
     Buffer.cc
     Timer.cc
     Channel.cc
-    Poller.cc)
+    Poller.cc
+    TimerQueue.cc)
 
 add_library(${PROJECT_NAME} STATIC ${NET_SRC})
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR})
