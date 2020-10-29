@@ -3,7 +3,8 @@ project(TmuduoNet)
 set(NET_SRC 
     SocketsOps.cc
     InetAddress.cc
-    Buffer.cc)
+    Buffer.cc
+    Timer.cc)
 
 add_library(${PROJECT_NAME} STATIC ${NET_SRC})
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR})
