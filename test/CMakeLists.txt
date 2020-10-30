@@ -77,3 +77,7 @@ add_executable(Buffer_Unittest Buffer_Unittest.cc)
 target_include_directories(Buffer_Unittest PUBLIC ${CMAKE_SOURCE_DIR})
 target_link_libraries(Buffer_Unittest Net::lib ${CONAN_LIBS})
 add_test(NAME Buffer_Unittest COMMAND Buffer_Unittest)
+
+add_executable(EventLoop_Unique_test EventLoop_Unique_test.cc)
+target_include_directories(EventLoop_Unique_test PUBLIC ${CMAKE_SOURCE_DIR})
+target_link_libraries(EventLoop_Unique_test Net::lib ${CONAN_LIBS})

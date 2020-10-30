@@ -47,6 +47,8 @@ void Channel::remove() {
   loop_->removeChannel(this);
 }
 
+// Channel 的核心,由 EventLoop::loop 调用, 其功能是根据 revents_ 的值
+//分别调用不同的回调函数
 void Channel::handleEvent(Timestamp receiveTime) {
   std::shared_ptr<void> guard;
   if (tied_) {
