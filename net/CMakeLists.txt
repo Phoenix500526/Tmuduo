@@ -9,6 +9,7 @@ set(NET_SRC
     Poller.cc
     poller/DefaultPoller.cc
     poller/EPollPoller.cc
+    poller/PollPoller.cc
     TimerQueue.cc)
 
 add_library(${PROJECT_NAME} STATIC ${NET_SRC})

@@ -1,10 +1,14 @@
+#include <stdlib.h>
 #include "net/Poller.h"
 #include "net/poller/EPollPoller.h"
-
-#include <stdlib.h>
+#include "net/poller/PollPoller.h"
 
 using namespace tmuduo::net;
 
 Poller* Poller::newDefaultPoller(EventLoop* loop) {
-  return new EPollPoller(loop);
+  if (::getenv("TMUDUO_USE_POLL")) {
+    return new PollPoller(loop);
+  } else {
+    return new EPollPoller(loop);
+  }
 }
