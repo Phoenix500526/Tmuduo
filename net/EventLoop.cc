@@ -16,7 +16,7 @@ using namespace tmuduo;
 using namespace tmuduo::net;
 
 namespace {
-thread_local EventLoop* t_loopInThisThread = 0;
+thread_local EventLoop* t_loopInThisThread = nullptr;
 
 const int kPollTimeMs = 10000;
 
