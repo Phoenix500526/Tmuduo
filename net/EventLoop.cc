@@ -30,6 +30,10 @@ int createEventfd() {
 }
 
 #pragma clang diagnostic ignored "-Wold-style-cast"
+// SIGPIPE 的默认行为是终止进程,这在命令行程序中是合理的,但是在网络编程中则
+//不太合理.假设服务进程繁忙,没能及时处理对方断开连接的事件,这就有可能造成服
+//务端在链接断开后依然发送消息的情况,此时 SIGPIPE 导致服务进程意外退出.
+//一个解决方法就是利用全局对象,在程序开始时忽略 SIGPIPE 即可
 class IgnoreSigPipe {
  public:
   IgnoreSigPipe() {

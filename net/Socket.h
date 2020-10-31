@@ -15,6 +15,7 @@ class InetAddress;
 class Socket : noncopyable {
  public:
   explicit Socket(int sockfd) : sockfd_(sockfd) {}
+  Socket() : sockfd_(-1) {}
   Socket(Socket&& rhs) : sockfd_(rhs.sockfd_) { rhs.sockfd_ = -1; }
   Socket& operator=(Socket&& rhs);
 
@@ -32,7 +33,7 @@ class Socket : noncopyable {
   /// a descriptor for the accepted socket, which has been
   /// set to non-blocking and close-on-exec. *peeraddr is assigned.
   /// On error, -1 is returned, and *peeraddr is untouched.
-  int accept(InetAddress* peeraddr);
+  Socket accept(InetAddress* peeraddr);
 
   void shutdownWrite();
 

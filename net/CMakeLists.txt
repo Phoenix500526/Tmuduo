@@ -3,6 +3,7 @@ project(TmuduoNet)
 set(NET_SRC 
     SocketsOps.cc
     Socket.cc
+    Acceptor.cc
     InetAddress.cc
     Buffer.cc
     Timer.cc
