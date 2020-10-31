@@ -85,3 +85,7 @@ target_link_libraries(EventLoop_Unique_test Net::lib ${CONAN_LIBS})
 add_executable(EventLoopThread_test EventLoopThread_test.cc)
 target_include_directories(EventLoopThread_test PUBLIC ${CMAKE_SOURCE_DIR})
 target_link_libraries(EventLoopThread_test Net::lib ${CONAN_LIBS})
+
+add_executable(EventLoopThreadPool_Unittest EventLoopThreadPool_Unittest.cc)
+target_include_directories(EventLoopThreadPool_Unittest PUBLIC ${CMAKE_SOURCE_DIR})
+target_link_libraries(EventLoopThreadPool_Unittest Net::lib ${CONAN_LIBS})

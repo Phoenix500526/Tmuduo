@@ -12,7 +12,8 @@ set(NET_SRC
     poller/PollPoller.cc
     TimerQueue.cc
     EventLoop.cc
-    EventLoopThread.cc)
+    EventLoopThread.cc
+    EventLoopThreadPool.cc)
 
 add_library(${PROJECT_NAME} STATIC ${NET_SRC})
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR})

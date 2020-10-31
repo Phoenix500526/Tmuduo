@@ -17,7 +17,7 @@ ThreadPool::~ThreadPool() {
 }
 
 void ThreadPool::start(int numThreads) {
-  assert(threads_.empty() && numThreads > 0);
+  assert(threads_.empty() && numThreads >= 0);
   running_ = true;
   for (int i = 0; i < numThreads; ++i) {
     threads_.emplace_back(
