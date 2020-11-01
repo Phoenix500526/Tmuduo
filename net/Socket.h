@@ -16,8 +16,8 @@ class Socket : noncopyable {
  public:
   explicit Socket(int sockfd) : sockfd_(sockfd) {}
   Socket() : sockfd_(-1) {}
-  Socket(Socket&& rhs) : sockfd_(rhs.sockfd_) { rhs.sockfd_ = -1; }
-  Socket& operator=(Socket&& rhs);
+  Socket(Socket&& rhs) noexcept: sockfd_(rhs.sockfd_) { rhs.sockfd_ = -1; }
+  Socket& operator=(Socket&& rhs) noexcept;
 
   ~Socket();
   int fd() const { return sockfd_; }

@@ -10,7 +10,7 @@
 using namespace tmuduo;
 using namespace tmuduo::net;
 
-Socket& Socket::operator=(Socket&& rhs) {
+Socket& Socket::operator=(Socket&& rhs) noexcept{
   if (this != &rhs) {
     sockfd_ = rhs.sockfd_;
     rhs.sockfd_ = -1;
