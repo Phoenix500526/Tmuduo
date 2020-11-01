@@ -119,15 +119,16 @@ void TcpConnection::send(Buffer* buf) {
       sendInLoop(buf->peek(), buf->readableBytes());
       buf->retrieveAll();
     } else {
-      void (TcpConnection::*fp)(const StringPiece& message) =
-          &TcpConnection::sendInLoop;
-      loop_->runInLoop(std::bind(fp, shared_from_this(),
-                                 //若此处实现了 string&& 类型的函数版本
-                                 buf->retrieveAllAsString()));
-      // std::forward<string>(message)));
+      void (TcpConnection::*fp)(string && message) = &TcpConnection::sendInLoop;
+      loop_->runInLoop(
+          std::bind(fp, shared_from_this(),
+                    // buf->retrieveAllAsString() 是匿名对象,属于 rvalue
+                    std::bind(std::move<string&>, buf->retrieveAllAsString())));
     }
   }
 }
+
+void TcpConnection::send(Buffer&& message) { send(&message); }
 
 void TcpConnection::send(const StringPiece& message) {
   if (state_ == StateE::kConnected) {
@@ -142,8 +143,24 @@ void TcpConnection::send(const StringPiece& message) {
   }
 }
 
+void TcpConnection::send(string&& message) {
+  if (state_ == StateE::kConnected) {
+    if (loop_->isInLoopThread()) {
+      sendInLoop(message);
+    } else {
+      void (TcpConnection::*fp)(string && message) = &TcpConnection::sendInLoop;
+      loop_->runInLoop(
+          std::bind(fp, this, std::bind(std::move<string&>, message)));
+    }
+  }
+}
+
 void TcpConnection::sendInLoop(const StringPiece& message) {
   sendInLoop(message.data(), message.size());
+}
+
+void TcpConnection::sendInLoop(string&& message) {
+  sendInLoop(message.c_str(), message.size());
 }
 
 void TcpConnection::handleRead(Timestamp receiveTime) {
