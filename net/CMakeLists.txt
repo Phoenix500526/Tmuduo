@@ -15,7 +15,8 @@ set(NET_SRC
     TimerQueue.cc
     EventLoop.cc
     EventLoopThread.cc
-    EventLoopThreadPool.cc)
+    EventLoopThreadPool.cc
+    TcpConnection.cc)
 
 add_library(${PROJECT_NAME} STATIC ${NET_SRC})
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR})

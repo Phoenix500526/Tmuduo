@@ -12,13 +12,13 @@ template <typename CLASS, typename... ARGS>
 class WeakCallback {
  public:
   WeakCallback(const std::weak_ptr<CLASS>& obj,
-               const std::function<void(CLASS, ARGS...)>& func)
+               const std::function<void(CLASS*, ARGS...)>& func)
       : object_(obj), function_(func) {}
   ~WeakCallback() = default;
   void operator()(ARGS&&... args) const {
     std::shared_ptr<CLASS> s_ptr(object_.lock());
     if (s_ptr) {
-      function_(s_ptr.get(), std::forward<ARGS>(args...));
+      function_(s_ptr.get(), std::forward<ARGS>(args)...);
     }
   }
 
@@ -36,8 +36,9 @@ WeakCallback<CLASS, ARGS...> makeWeakCallback(const std::shared_ptr<CLASS>& obj,
 }
 
 template <typename CLASS, typename... ARGS>
-WeakCallback<CLASS, ARGS...> makeWeakCallback(
-    const std::shared_ptr<CLASS>& obj, void (CLASS::*func)(ARGS...)) const {
+WeakCallback<CLASS, ARGS...> makeWeakCallback(const std::shared_ptr<CLASS>& obj,
+                                              void (CLASS::*func)(ARGS...)
+                                                  const) {
   return WeakCallback<CLASS, ARGS...>(obj, func);
 }
 

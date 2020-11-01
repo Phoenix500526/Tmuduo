@@ -117,9 +117,9 @@ const char* strerror_tl(int savedErrno);
 
 // CHECK_NOTNULL 宏的作用与 assert 相同，但优点是不会受到 NDEBUG
 // 模式的影响。即使在 Release 版本中也是有效的，有利于及早发现错误
-#define CHECK_NOTNULL(val)                                                 \
-  ::muduo::CheckNotNull(__FILE__, __LINE__, "'" #val "' Must be non NULL", \
-                        (val))
+#define CHECK_NOTNULL(val)                                                  \
+  ::tmuduo::CheckNotNull(__FILE__, __LINE__, "'" #val "' Must be non NULL", \
+                         (val))
 
 // A small helper for CHECK_NOTNULL().
 template <typename T>
