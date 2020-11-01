@@ -8,6 +8,7 @@
 #include "net/Callbacks.h"
 #include "net/InetAddress.h"
 
+#include <atomic>
 #include <boost/any.hpp>
 
 // struct tcp_info is in <netinet/tcp.h>
@@ -96,7 +97,7 @@ class TcpConnection : noncopyable,
     kConnected,
     kDisconnecting,
   };
-  void setState(StateE s) { state_ = s; }
+  void setState(StateE s) { state_.store(s); }
   const char* stateToString() const;
   //处理函数
   void handleRead(Timestamp receiveTime);
@@ -117,7 +118,7 @@ class TcpConnection : noncopyable,
  private:
   EventLoop* loop_;
   const std::string name_;
-  StateE state_;  // FIXME: use atomic variable
+  std::atomic<StateE> state_;
   bool reading_;
 
   std::unique_ptr<Socket> socket_;

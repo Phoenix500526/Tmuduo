@@ -146,7 +146,6 @@ void TcpConnection::sendInLoop(const StringPiece& message) {
   sendInLoop(message.data(), message.size());
 }
 
-
 void TcpConnection::handleRead(Timestamp receiveTime) {
   loop_->assertInLoopThread();
   int savedErrno = 0;
@@ -207,7 +206,7 @@ void TcpConnection::handleError() {
 }
 
 const char* TcpConnection::stateToString() const {
-  switch (state_) {
+  switch (state_.load()) {
     case StateE::kDisconnected:
       return "kDisconnected";
     case StateE::kConnecting:
@@ -222,9 +221,10 @@ const char* TcpConnection::stateToString() const {
 }
 
 void TcpConnection::shutdown() {
-  // FIXME: use compare and swap
-  if (state_ == StateE::kConnected) {
-    setState(StateE::kDisconnecting);
+  // compare_exchange_strong 的第一个参数是左值引用,因此需要一个 Connected
+  // 变量来保存相应的值
+  static StateE Connected = StateE::kConnected;
+  if (state_.compare_exchange_strong(Connected, StateE::kDisconnecting)) {
     loop_->runInLoop(
         std::bind(&TcpConnection::shutdownInLoop, shared_from_this()));
   }
@@ -238,17 +238,18 @@ void TcpConnection::shutdownInLoop() {
 }
 
 void TcpConnection::forceClose() {
-  // FIXME: use compare and swap
-  if (state_ == StateE::kConnected || state_ == StateE::kDisconnecting) {
-    setState(StateE::kDisconnecting);
+  static StateE Connected = StateE::kConnected;
+  if (state_.compare_exchange_strong(Connected, StateE::kDisconnecting) ||
+      state_ == StateE::kDisconnecting) {
     loop_->queueInLoop(
         std::bind(&TcpConnection::forceCloseInLoop, shared_from_this()));
   }
 }
 
 void TcpConnection::forceCloseWithDelay(double seconds) {
-  if (state_ == StateE::kConnected || state_ == StateE::kDisconnecting) {
-    setState(StateE::kDisconnecting);
+  static StateE Connected = StateE::kConnected;
+  if (state_.compare_exchange_strong(Connected, StateE::kDisconnecting) ||
+      state_ == StateE::kDisconnecting) {
     loop_->runAfter(
         seconds,
         makeWeakCallback(shared_from_this(),
