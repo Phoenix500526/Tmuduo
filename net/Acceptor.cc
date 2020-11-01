@@ -43,11 +43,10 @@ void Acceptor::listen() {
 void Acceptor::handleRead() {
   loop_->assertInLoopThread();
   InetAddress peerAddr;
-  //移动构造
-  Socket connfd(acceptSocket_.accept(&peerAddr));
-  if (connfd.fd() >= 0) {
+  int connfd = acceptSocket_.accept(&peerAddr);
+  if (connfd >= 0) {
     if (newConnectionCallback_) {
-      newConnectionCallback_(std::move(connfd), peerAddr);
+      newConnectionCallback_(connfd, peerAddr);
     }
   } else {
     LOG_SYSERR << "in Acceptor::handleRead";

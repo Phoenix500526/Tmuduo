@@ -56,14 +56,14 @@ void Socket::bindAddress(const InetAddress& addr) {
 
 void Socket::listen() { sockets::listenOrDie(sockfd_); }
 
-Socket Socket::accept(InetAddress* peeraddr) {
+int Socket::accept(InetAddress* peeraddr) {
   struct sockaddr_in6 addr;
   memZero(&addr, sizeof addr);
   int connfd = sockets::accept(sockfd_, &addr);
   if (connfd >= 0) {
     peeraddr->setSockAddrInet6(addr);
   }
-  return Socket(connfd);
+  return connfd;
 }
 
 void Socket::shutdownWrite() { sockets::shutdownWrite(sockfd_); }

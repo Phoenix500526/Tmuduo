@@ -33,7 +33,7 @@ class Socket : noncopyable {
   /// a descriptor for the accepted socket, which has been
   /// set to non-blocking and close-on-exec. *peeraddr is assigned.
   /// On error, -1 is returned, and *peeraddr is untouched.
-  Socket accept(InetAddress* peeraddr);
+  int accept(InetAddress* peeraddr);
 
   void shutdownWrite();
 
