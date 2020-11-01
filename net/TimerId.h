@@ -13,6 +13,7 @@ class TimerId : copyable {
   TimerId() : timer_(nullptr), sequence_(0) {}
   TimerId(Timer* timer, int64_t seq) : timer_(timer), sequence_(seq) {}
   ~TimerId() = default;
+  bool invalid() const { return timer_ == nullptr; }
   friend class TimerQueue;
 
  private:
