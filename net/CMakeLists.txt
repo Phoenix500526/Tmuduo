@@ -18,7 +18,8 @@ set(NET_SRC
     EventLoopThreadPool.cc
     TcpConnection.cc
     TcpServer.cc
-    Connector.cc)
+    Connector.cc
+    TcpClient.cc)
 
 add_library(${PROJECT_NAME} STATIC ${NET_SRC})
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR})
