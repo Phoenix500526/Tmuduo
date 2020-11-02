@@ -48,7 +48,7 @@ class Logger {
   Logger(SourceFile file, int line, LogLevel level, const char* func);
   Logger(SourceFile file, int line, bool toAbort);
   ~Logger();
-  void setTimeZone(const TimeZone& tz);
+  static void setTimeZone(const TimeZone& tz);
   LogStream& stream() { return impl_.stream_; }
 
   static LogLevel logLevel();

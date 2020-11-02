@@ -55,6 +55,10 @@ add_executable(LogFile_test LogFile_test.cc)
 target_include_directories(LogFile_test PUBLIC ${CMAKE_SOURCE_DIR})
 target_link_libraries(LogFile_test Base::lib)
 
+add_executable(Logging_test Logging_test.cc)
+target_include_directories(Logging_test PUBLIC ${CMAKE_SOURCE_DIR})
+target_link_libraries(Logging_test Base::lib)
+
 add_executable(AsyncLogging_test AsyncLogging_test.cc)
 target_include_directories(AsyncLogging_test PUBLIC ${CMAKE_SOURCE_DIR})
 target_link_libraries(AsyncLogging_test Base::lib)
