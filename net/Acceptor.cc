@@ -47,6 +47,8 @@ void Acceptor::handleRead() {
   if (connfd >= 0) {
     if (newConnectionCallback_) {
       newConnectionCallback_(connfd, peerAddr);
+    } else {
+      sockets::close(connfd);
     }
   } else {
     LOG_SYSERR << "in Acceptor::handleRead";
