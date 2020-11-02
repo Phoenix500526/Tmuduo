@@ -46,13 +46,15 @@ void Connector::startInLoop() {
 void Connector::stop() {
   connect_ = false;
   loop_->queueInLoop(std::bind(&Connector::stopInLoop, shared_from_this()));
-  if(!timerId.invalid())
-    loop_->cancel(timerId);
 }
 
 void Connector::stopInLoop() {
   loop_->assertInLoopThread();
   if (state_ == States::kConnecting) {
+    if (!timerId.invalid()) {
+      loop_->cancel(timerId);
+      timerId = TimerId();  //在 loop thread 中修改 timerId 不必是线程安全的.
+    }
     setState(States::kDisconnected);
     int sockfd = removeAndResetChannel();
     retry(sockfd);
@@ -123,7 +125,8 @@ int Connector::removeAndResetChannel() {
   channel_->remove();
   int sockfd = channel_->fd();
   // Can't reset channel_ here, because we are inside Channel::handleEvent
-  loop_->queueInLoop(std::bind(&Connector::resetChannel, this));  // FIXME:unsafe
+  loop_->queueInLoop(
+      std::bind(&Connector::resetChannel, this));  // FIXME:unsafe
   return sockfd;
 }
 
