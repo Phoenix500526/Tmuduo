@@ -17,9 +17,7 @@ void removeConnection(EventLoop* loop, const TcpConnectionPtr& conn) {
   loop->queueInLoop(std::bind(&TcpConnection::connectDestroyed, conn));
 }
 
-void removeConnector(const ConnectorPtr& connector) {
-
-}
+void removeConnector(const ConnectorPtr& connector) {}
 
 }  // namespace detail
 }  // namespace net
