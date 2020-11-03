@@ -27,3 +27,4 @@ target_link_libraries(${PROJECT_NAME} PRIVATE Threads::Threads Base::lib)
 add_library(Net::lib ALIAS ${PROJECT_NAME})
 
 add_subdirectory(http)
+add_subdirectory(inspect)

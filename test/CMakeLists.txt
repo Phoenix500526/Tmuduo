@@ -100,12 +100,12 @@ target_link_libraries(Connector_test Net::lib ${CONAN_LIBS})
 
 add_executable(TcpClient_reg1 TcpClient_reg1.cc)
 target_include_directories(TcpClient_reg1 PUBLIC ${CMAKE_SOURCE_DIR})
-target_link_libraries(TcpClient_reg1 Net::lib ${CONAN_LIBS})
+target_link_libraries(TcpClient_reg1 Net::lib)
 
 add_executable(TcpClient_reg2 TcpClient_reg2.cc)
 target_include_directories(TcpClient_reg2 PUBLIC ${CMAKE_SOURCE_DIR})
-target_link_libraries(TcpClient_reg2 Net::lib ${CONAN_LIBS})
+target_link_libraries(TcpClient_reg2 Net::lib)
 
 add_executable(TcpClient_reg3 TcpClient_reg3.cc)
 target_include_directories(TcpClient_reg3 PUBLIC ${CMAKE_SOURCE_DIR})
-target_link_libraries(TcpClient_reg3 Net::lib ${CONAN_LIBS})
+target_link_libraries(TcpClient_reg3 Net::lib)
