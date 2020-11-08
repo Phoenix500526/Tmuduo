@@ -71,6 +71,15 @@ add_executable(ThreadPool_test ThreadPool_test.cc)
 target_include_directories(ThreadPool_test PUBLIC ${CMAKE_SOURCE_DIR})
 target_link_libraries(ThreadPool_test Base::lib)
 
+add_executable(ThreadLocal_test ThreadLocal_test.cc)
+target_include_directories(ThreadLocal_test PUBLIC ${CMAKE_SOURCE_DIR})
+target_link_libraries(ThreadLocal_test Base::lib)
+
+add_executable(ThreadLocalSingleton_test ThreadLocalSingleton_test.cc)
+target_include_directories(ThreadLocalSingleton_test PUBLIC ${CMAKE_SOURCE_DIR})
+target_link_libraries(ThreadLocalSingleton_test Base::lib)
+
+
 ## Tmuduo net lib test
 add_executable(InetAddress_Unittest InetAddress_Unittest.cc)
 target_include_directories(InetAddress_Unittest PUBLIC ${CMAKE_SOURCE_DIR})

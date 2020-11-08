@@ -18,6 +18,11 @@ EventLoopThreadPool::EventLoopThreadPool(EventLoop* baseLoop,
 //将析构函数定义在 .cc 文件中以避免内联
 EventLoopThreadPool::~EventLoopThreadPool() = default;
 
+// numThreads = 0 的意义何在？
+// 在实际开发中，TCPServer 和 TcpClient 即有可能是一对一的关系，
+// 也可能是一对多的。而 EventLoopThreadPool 作为 TcpServer 的
+// 成员变量，如果不允许设置 numThreads = 0，那么 TcpServer 要
+// 实现一对一的模式就比较麻烦了。
 void EventLoopThreadPool::start(const ThreadInitCallback& cb) {
   assert(!started_);
   baseLoop_->assertInLoopThread();
