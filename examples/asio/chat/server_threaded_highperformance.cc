@@ -1,6 +1,7 @@
 #include "base/Logging.h"
 #include "base/Mutex.h"
-#include "examples/asiochat/codec.h"
+#include "base/ThreadLocalSingleton.h"
+#include "examples/asio/chat/codec.h"
 #include "net/EventLoop.h"
 #include "net/TcpServer.h"
 
@@ -10,13 +11,13 @@
 
 using namespace tmuduo;
 using namespace tmuduo::net;
+using std::string;
 
-class ChatServer : noncopyable {
+class ChatServer {
  public:
   ChatServer(EventLoop* loop, const InetAddress& listenAddr)
       : server_(loop, listenAddr, "ChatServer"),
-        codec_(std::bind(&ChatServer::onStringMessage, this, _1, _2, _3)),
-        connections_(new ConnectionList) {
+        codec_(std::bind(&ChatServer::onStringMessage, this, _1, _2, _3)) {
     server_.setConnectionCallback(
         std::bind(&ChatServer::onConnection, this, _1));
     server_.setMessageCallback(
@@ -24,47 +25,58 @@ class ChatServer : noncopyable {
   }
   ~ChatServer() = default;
 
-  void setThreadNum(int threadnum) { server_.setThreadNum(threadnum); }
+  void setThreadNum(int numThreads) { server_.setThreadNum(numThreads); }
 
-  void start() { server_.start(); }
+  void start() {
+    server_.setThreadInitCallback(std::bind(&ChatServer::threadInit, this, _1));
+    server_.start();
+  }
 
  private:
+  using ConnectionList = std::set<TcpConnectionPtr>;
+  using LocalConnections = ThreadLocalSingleton<ConnectionList>;
   void onConnection(const TcpConnectionPtr& conn) {
     LOG_INFO << conn->peerAddress().toIpPort() << " -> "
              << conn->localAddress().toIpPort() << " is "
              << (conn->connected() ? "UP" : "DOWN");
-    UniqueLock lock(mutex_);
-    if (!connections_.unique()) {
-      connections_.reset(new ConnectionList(*connections_));
-    }
-    assert(connections_.unique());
     if (conn->connected()) {
-      connections_->insert(conn);
+      LocalConnections::instance().insert(conn);
     } else {
-      connections_->erase(conn);
+      LocalConnections::instance().erase(conn);
     }
   }
 
-  void onStringMessage(const TcpConnectionPtr&, const std::string& message,
+  void onStringMessage(const TcpConnectionPtr&, const string& message,
                        Timestamp) {
-    ConnectionListPtr connections = getConnectionList();
-    for (auto it = connections->begin(); it != connections->end(); ++it) {
+    EventLoop::Functor f =
+        std::bind(&ChatServer::distributeMessage, this, message);
+    LOG_DEBUG;
+    UniqueLock lock(mutex_);
+    for (auto it = loops_.begin(); it != loops_.end(); ++it) {
+      (*it)->queueInLoop(f);
+    }
+    LOG_DEBUG;
+  }
+
+  void distributeMessage(const string& message) {
+    LOG_DEBUG << "begin";
+    for (auto it = LocalConnections::instance().begin();
+         it != LocalConnections::instance().end(); ++it) {
       codec_.send(*it, message);
     }
+    LOG_DEBUG << "end";
   }
 
-  using ConnectionList = std::set<TcpConnectionPtr>;
-  using ConnectionListPtr = std::shared_ptr<ConnectionList>;
-
-  ConnectionListPtr getConnectionList() {
+  void threadInit(EventLoop* loop) {
+    LocalConnections::instance();
     UniqueLock lock(mutex_);
-    return connections_;
+    loops_.insert(loop);
   }
 
+  mutable Mutex mutex_;
   TcpServer server_;
   LengthHeaderCodec codec_;
-  mutable Mutex mutex_;
-  ConnectionListPtr connections_ GUARDED_BY(mutex_);
+  std::set<EventLoop*> loops_ GUARDED_BY(mutex_);
 };
 
 int main(int argc, char* argv[]) {

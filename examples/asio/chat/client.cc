@@ -1,4 +1,4 @@
-#include "examples/asiochat/codec.h"
+#include "examples/asio/chat/codec.h"
 
 #include "base/Logging.h"
 #include "base/Mutex.h"
