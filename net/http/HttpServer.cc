@@ -47,10 +47,10 @@ void HttpServer::onMessage(const TcpConnectionPtr& conn, Buffer* buf,
   HttpContext* context =
       boost::any_cast<HttpContext>(conn->getMutableContext());
   if (!context->parseRequest(buf, receiveTime)) {
-    conn->send(std::string("HTTP/1.1 400 Bad Request\r\n\r\n"));
+    conn->send("HTTP/1.1 400 Bad Request\r\n\r\n");
     conn->shutdown();
   }
-
+  //若当前状态为 gotAll
   if (context->gotAll()) {
     onRequest(conn, context->request());
     context->reset();

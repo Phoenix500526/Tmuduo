@@ -35,6 +35,7 @@ bool HttpContext::processRequestLine(const char* begin, const char* end) {
   return succeed;
 }
 
+// parseRequest 的作用就是将 buf 的内容添加到 context 的 HttpRequest 当中
 bool HttpContext::parseRequest(Buffer* buf, Timestamp receiveTime) {
   bool ok = true;
   bool hasMore = true;
@@ -67,7 +68,6 @@ bool HttpContext::parseRequest(Buffer* buf, Timestamp receiveTime) {
       } else {
         hasMore = false;
       }
-    } else if (state_ == HttpRequestParseState::kExpectBody) {
     }
   }
   return ok;

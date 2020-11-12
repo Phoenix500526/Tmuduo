@@ -67,6 +67,9 @@ class TcpConnection : noncopyable,
   void setWriteCompleteCallback(const WriteCompleteCallback& cb) {
     writeCompleteCallback_ = cb;
   }
+  // 假设存在 client —— proxy —— server 的业务场景，设置
+  // HighWaterMarkCallback 可以避免因 server 和 client 之间发送数据
+  // 速度的差异而导致 proxy 的 Buffer 被撑爆
   void setHighWaterMarkCallback(const HighWaterMarkCallback& cb,
                                 size_t highWaterMark) {
     highWaterMarkCallback_ = cb;
@@ -133,6 +136,8 @@ class TcpConnection : noncopyable,
   size_t highWaterMark_;
   Buffer inputBuffer_;
   Buffer outputBuffer_;
+  // context 用于保存与 connection 绑定的任意数据，这样客户代码
+  // 不必继承 TCPConnection 也可以 attach 自己的状态。
   boost::any context_;
 };
 

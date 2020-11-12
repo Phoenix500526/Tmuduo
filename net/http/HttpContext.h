@@ -10,10 +10,10 @@ namespace net {
 class Buffer;
 class HttpContext : public copyable {
  public:
+  // REST 方法以 HTTP 动词描述行为，因此是没有 Body
   enum class HttpRequestParseState {
     kExpectRequestLine,
     kExpectHeaders,
-    kExpectBody,
     kGotAll,
   };
 
