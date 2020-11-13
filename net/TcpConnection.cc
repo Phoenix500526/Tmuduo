@@ -128,8 +128,6 @@ void TcpConnection::send(Buffer* buf) {
   }
 }
 
-void TcpConnection::send(Buffer&& message) { send(&message); }
-
 void TcpConnection::send(const StringPiece& message) {
   if (state_ == StateE::kConnected) {
     if (loop_->isInLoopThread()) {
@@ -143,7 +141,7 @@ void TcpConnection::send(const StringPiece& message) {
   }
 }
 
-void TcpConnection::send(string&& message) {
+void TcpConnection::sendByRvalue(string&& message) {
   if (state_ == StateE::kConnected) {
     if (loop_->isInLoopThread()) {
       sendInLoop(message);

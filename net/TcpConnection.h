@@ -41,11 +41,10 @@ class TcpConnection : noncopyable,
   std::string getTcpInfoString() const;
 
   // send 相关函数
-  void send(std::string&& message);
+  void sendByRvalue(std::string&& message);
   void send(const void* message, int len);
   void send(const StringPiece& message);
   void send(Buffer* message);  // this one will swap data
-  void send(Buffer&& message);
 
   // reading or not
   void startRead();

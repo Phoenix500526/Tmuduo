@@ -66,7 +66,7 @@ void PubSubClient::onMessage(const TcpConnectionPtr& conn, Buffer* buf,
 bool PubSubClient::send(string&& message) {
   bool succeed = false;
   if (connected()) {
-    conn_->send(message);
+    conn_->sendByRvalue(std::move(message));
     succeed = true;
   }
   return succeed;
