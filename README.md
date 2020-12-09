@@ -49,7 +49,7 @@ $ BUILD_TYPE=release ./build.sh -j4
 [muduo 网络库源码剖析系列文章](https://www.hacker-cube.com/categories/muduo%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90//)
 
 # TODO
-[] 使用智能指针来管理 TimerQueue 中的 timer 节点
-[] 使用 Go 语言来为 multiplexer 实现 test harness
-[] 将 multiplexer、demux 以及 socks4a 级联起来，编写一个新的 example
-[] 完善 cdns 用例中关于 fd 可写情况的处理
+- [ ] 使用智能指针来管理 TimerQueue 中的 timer 节点  
+- [ ] 使用 Go 语言来为 multiplexer 实现 test harness  
+- [ ] 将 multiplexer、demux 以及 socks4a 级联起来，编写一个新的 example  
+- [ ] 完善 cdns 用例中关于 fd 可写情况的处理  
